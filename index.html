@@ -1,0 +1,1459 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GestureTech Workshop Guide</title>
+<link href="https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Nunito:wght@400;600;700;800;900&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #ffffff;
+    --surface: #fff5f5;
+    --surface2: #ffeaea;
+    --border: #f5c0c0;
+    --border2: #e8a0a0;
+    --red: #c0272d;
+    --red-dark: #8b1a1e;
+    --red-light: #e63936;
+    --red-pale: #fff0f0;
+    --text: #1a0a0a;
+    --text-muted: #7a4040;
+    --code-bg: #1a0505;
+    --warn-bg: #fff0e0;
+    --warn-border: #e8a040;
+    --warn-text: #8b5000;
+    --tip-bg: #f0fff4;
+    --tip-border: #40a060;
+    --tip-text: #1a5030;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Nunito', sans-serif;
+    font-size: 16px;
+    line-height: 1.75;
+  }
+
+  /* ===== HERO ===== */
+  .hero {
+    background: linear-gradient(150deg, #6b1012 0%, #c0272d 45%, #e63936 100%);
+    padding: 70px 20px 60px;
+    text-align: center;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .hero::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background: url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/svg%3E");
+    pointer-events: none;
+  }
+
+  .hero-badge {
+    display: inline-block;
+    background: rgba(255,255,255,0.18);
+    border: 1px solid rgba(255,255,255,0.4);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    padding: 6px 18px;
+    border-radius: 20px;
+    margin-bottom: 22px;
+  }
+
+  .hero h1 {
+    font-size: clamp(40px, 7vw, 80px);
+    font-weight: 900;
+    letter-spacing: -2px;
+    line-height: 1.0;
+    color: #fff;
+    margin-bottom: 14px;
+    text-shadow: 0 4px 20px rgba(0,0,0,0.3);
+  }
+
+  .hero h1 span { color: #ffdddd; }
+
+  .hero-sub {
+    color: rgba(255,255,255,0.88);
+    font-size: 18px;
+    font-weight: 600;
+    max-width: 560px;
+    margin: 0 auto 40px;
+  }
+
+  .project-pills { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+
+  .pill {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 10px 22px;
+    border-radius: 50px;
+    font-weight: 800;
+    font-size: 14px;
+    border: 2px solid rgba(255,255,255,0.55);
+    background: rgba(255,255,255,0.12);
+    color: #fff;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-decoration: none;
+  }
+
+  .pill:hover {
+    background: rgba(255,255,255,0.25);
+    border-color: #fff;
+    transform: translateY(-3px);
+    box-shadow: 0 8px 24px rgba(0,0,0,0.25);
+  }
+
+  /* ===== STICKY NAV ===== */
+  .sticky-nav {
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    background: var(--red-dark);
+    border-bottom: 3px solid var(--red);
+    padding: 0 20px;
+    overflow-x: auto;
+  }
+
+  .nav-inner {
+    max-width: 960px;
+    margin: 0 auto;
+    display: flex;
+    min-width: max-content;
+  }
+
+  .nav-link {
+    display: block;
+    padding: 13px 16px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: rgba(255,200,200,0.75);
+    text-decoration: none;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -3px;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-link:hover { color: #fff; border-color: #fff; background: rgba(255,255,255,0.08); }
+
+  /* ===== MAIN ===== */
+  .main { max-width: 960px; margin: 0 auto; padding: 50px 20px 80px; }
+
+  /* ===== TYPOGRAPHY ===== */
+  .section-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 10px;
+    letter-spacing: 4px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+  }
+
+  .section-label::after {
+    content: '';
+    flex: 1;
+    height: 1px;
+    background: linear-gradient(90deg, var(--border), transparent);
+    max-width: 200px;
+  }
+
+  h2.section-title {
+    font-size: clamp(24px, 4vw, 38px);
+    font-weight: 900;
+    letter-spacing: -0.5px;
+    margin-bottom: 20px;
+    color: var(--red-dark);
+    line-height: 1.15;
+  }
+
+  h3.step-title {
+    font-size: 19px;
+    font-weight: 800;
+    margin: 32px 0 12px;
+    color: var(--text);
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .step-num {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 32px; height: 32px;
+    border-radius: 50%;
+    background: var(--red);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    font-weight: 700;
+    flex-shrink: 0;
+  }
+
+  p { margin-bottom: 14px; }
+  p:last-child { margin-bottom: 0; }
+
+  .card {
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 26px;
+    margin-bottom: 20px;
+  }
+
+  .section-sep {
+    border: none;
+    border-top: 2px solid var(--border);
+    margin: 52px 0;
+    position: relative;
+  }
+
+  .section-sep::after {
+    content: '◆';
+    position: absolute;
+    left: 50%; top: 50%;
+    transform: translate(-50%,-50%);
+    background: #fff;
+    padding: 0 12px;
+    color: var(--red);
+    font-size: 12px;
+  }
+
+  /* ===== TABLES ===== */
+  table { width: 100%; border-collapse: collapse; margin: 14px 0 20px; font-size: 15px; }
+
+  th {
+    background: var(--red);
+    color: #fff;
+    padding: 11px 16px;
+    text-align: left;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+  }
+
+  td { padding: 11px 16px; border-bottom: 1px solid var(--border); vertical-align: top; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: var(--red-pale); }
+
+  td:first-child {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    color: var(--red-dark);
+    font-weight: 700;
+  }
+
+  /* ===== CALLOUTS ===== */
+  .callout {
+    border-radius: 12px;
+    padding: 16px 20px;
+    margin: 18px 0;
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    border-left: 4px solid;
+  }
+
+  .callout-icon { font-size: 22px; flex-shrink: 0; margin-top: 1px; }
+  .callout-content { flex: 1; }
+  .callout-content strong { display: block; font-size: 15px; font-weight: 800; margin-bottom: 5px; }
+  .callout-content p { font-size: 14px; margin: 0; }
+
+  .callout-danger { background: #fff0f0; border-color: var(--red); }
+  .callout-danger strong { color: var(--red); }
+
+  .callout-tip { background: var(--tip-bg); border-color: var(--tip-border); }
+  .callout-tip strong { color: var(--tip-text); }
+
+  .callout-info { background: #f0f4ff; border-color: #4060c0; }
+  .callout-info strong { color: #2040a0; }
+
+  .callout-warn { background: var(--warn-bg); border-color: var(--warn-border); }
+  .callout-warn strong { color: var(--warn-text); }
+
+  /* ===== CODE BLOCKS ===== */
+  .code-block {
+    margin: 14px 0 22px;
+    border-radius: 12px;
+    overflow: hidden;
+    border: 1px solid rgba(192,39,45,0.3);
+    box-shadow: 0 2px 12px rgba(192,39,45,0.07);
+  }
+
+  .code-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: var(--red-dark);
+    padding: 9px 16px;
+  }
+
+  .code-lang {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    color: rgba(255,200,200,0.8);
+    letter-spacing: 2px;
+    text-transform: uppercase;
+  }
+
+  .copy-btn {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    background: rgba(255,255,255,0.12);
+    border: 1px solid rgba(255,255,255,0.25);
+    color: #fff;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1px;
+    padding: 5px 14px;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.2s;
+    text-transform: uppercase;
+  }
+
+  .copy-btn:hover { background: rgba(255,255,255,0.25); transform: translateY(-1px); }
+  .copy-btn.copied { background: rgba(40,180,80,0.3); border-color: #40b040; color: #c0ffc0; }
+  .copy-btn svg { width: 13px; height: 13px; flex-shrink: 0; }
+
+  pre { background: var(--code-bg); padding: 20px 22px; overflow-x: auto; margin: 0; }
+
+  code {
+    font-family: 'Space Mono', monospace;
+    font-size: 13px;
+    line-height: 1.9;
+    color: #ffcccc;
+  }
+
+  .token-comment { color: #804040; font-style: italic; }
+  .token-keyword { color: #ff9090; }
+  .token-string  { color: #90e890; }
+  .token-number  { color: #ffd090; }
+  .token-fn      { color: #90c8ff; }
+  .token-type    { color: #ffb0d0; }
+
+  p code, li code, td code {
+    background: var(--surface2);
+    color: var(--red-dark);
+    padding: 2px 7px;
+    border-radius: 5px;
+    font-size: 13px;
+    border: 1px solid var(--border);
+    font-family: 'Space Mono', monospace;
+  }
+
+  /* ===== DOWNLOAD GRID ===== */
+  .download-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 14px;
+    margin: 20px 0 24px;
+  }
+
+  .dl-card {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 14px;
+    padding: 22px 16px 18px;
+    text-align: center;
+    transition: all 0.2s;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .dl-card::before {
+    content: '';
+    position: absolute;
+    top: 0; left: 0; right: 0;
+    height: 4px;
+    background: var(--red);
+  }
+
+  .dl-card:hover {
+    border-color: var(--red);
+    transform: translateY(-4px);
+    box-shadow: 0 10px 28px rgba(192,39,45,0.18);
+  }
+
+  .dl-icon { font-size: 34px; margin-bottom: 8px; }
+  .dl-name { font-weight: 900; font-size: 16px; color: var(--text); margin-bottom: 3px; }
+  .dl-version { font-size: 12px; color: var(--text-muted); margin-bottom: 5px; font-family: 'Space Mono', monospace; }
+  .dl-purpose { font-size: 12px; color: var(--text-muted); margin-bottom: 16px; line-height: 1.45; min-height: 34px; }
+
+  .dl-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    background: var(--red);
+    color: #fff;
+    font-weight: 800;
+    font-size: 13px;
+    padding: 10px 18px;
+    border-radius: 8px;
+    text-decoration: none;
+    transition: all 0.2s;
+    width: 100%;
+  }
+
+  .dl-btn:hover { background: var(--red-dark); box-shadow: 0 4px 14px rgba(192,39,45,0.4); }
+  .dl-btn svg { width: 14px; height: 14px; flex-shrink: 0; }
+
+  .dl-note { font-size: 11px; color: var(--text-muted); margin-top: 9px; line-height: 1.5; }
+
+  /* ===== PROJECT HEADERS ===== */
+  .project-header {
+    border-radius: 18px;
+    padding: 34px 34px 26px;
+    margin-bottom: 30px;
+    position: relative;
+    overflow: hidden;
+    border: 2px solid;
+  }
+
+  .project-header::after {
+    content: attr(data-num);
+    position: absolute;
+    right: -8px; top: -18px;
+    font-size: 110px;
+    font-weight: 900;
+    font-family: 'Space Mono', monospace;
+    opacity: 0.06;
+    letter-spacing: -5px;
+    line-height: 1;
+    pointer-events: none;
+    color: var(--red-dark);
+  }
+
+  .ph-1 { background: linear-gradient(135deg, #fff0f0, #fff8f8); border-color: #f0b0b0; }
+  .ph-2 { background: linear-gradient(135deg, #fff4ee, #fff9f6); border-color: #f0c0a0; }
+  .ph-3 { background: linear-gradient(135deg, #f8f0f0, #fff5f5); border-color: #dda0a0; }
+
+  .project-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    letter-spacing: 3px;
+    text-transform: uppercase;
+    color: var(--red);
+    margin-bottom: 10px;
+    opacity: 0.8;
+  }
+
+  .project-title {
+    font-size: clamp(26px, 4vw, 38px);
+    font-weight: 900;
+    letter-spacing: -1px;
+    color: var(--red-dark);
+    margin-bottom: 10px;
+    line-height: 1.1;
+  }
+
+  .project-desc { font-size: 15px; color: var(--text-muted); max-width: 580px; }
+
+  /* ===== TILT CARDS ===== */
+  .tilt-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+    gap: 10px;
+    margin: 14px 0 22px;
+  }
+
+  .tilt-card {
+    background: #fff;
+    border: 2px solid var(--border);
+    border-radius: 12px;
+    padding: 16px 12px;
+    text-align: center;
+    transition: border-color 0.2s;
+  }
+
+  .tilt-card:hover { border-color: var(--red); }
+  .tilt-arrow { font-size: 26px; margin-bottom: 6px; }
+  .tilt-dir { font-weight: 800; font-size: 14px; color: var(--red-dark); margin-bottom: 5px; }
+  .tilt-key {
+    display: inline-block;
+    background: var(--red);
+    color: #fff;
+    border-radius: 6px;
+    padding: 2px 10px;
+    font-family: 'Space Mono', monospace;
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  /* ===== TROUBLESHOOT ===== */
+  .trouble-item {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid var(--border);
+    font-size: 14px;
+  }
+
+  .trouble-item:last-child { border-bottom: none; }
+  .trouble-prob { color: var(--red); font-weight: 700; }
+  .trouble-fix { color: #1a5030; }
+
+  @media (max-width: 560px) { .trouble-item { grid-template-columns: 1fr; gap: 4px; } }
+
+  /* ===== CHECKLIST ===== */
+  .checklist { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 8px; margin: 14px 0; }
+
+  .checklist li {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 12px 16px;
+    background: #fff;
+    border: 1.5px solid var(--border);
+    border-radius: 10px;
+    font-size: 14px;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.2s;
+  }
+
+  .checklist li:hover { border-color: var(--red); background: var(--red-pale); }
+  .checklist li.checked { background: var(--tip-bg); border-color: var(--tip-border); opacity: 0.75; }
+  .checklist li.checked .check-text { text-decoration: line-through; color: var(--text-muted); }
+
+  .check-box {
+    width: 20px; height: 20px;
+    border-radius: 5px;
+    border: 2px solid var(--border2);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 12px;
+    margin-top: 1px;
+    color: transparent;
+    transition: all 0.2s;
+  }
+
+  .checked .check-box { background: var(--tip-border); border-color: var(--tip-border); color: #fff; }
+
+  /* ===== PROGRESS ===== */
+  .progress-bar { height: 6px; background: var(--border); border-radius: 6px; overflow: hidden; }
+  .progress-fill { height: 100%; background: linear-gradient(90deg, var(--red), var(--red-light)); border-radius: 6px; transition: width 0.4s ease; width: 0%; }
+
+  /* ===== HIGHLIGHT BOX ===== */
+  .highlight-box {
+    background: #fff8f8;
+    border: 1px solid var(--border);
+    border-left: 4px solid var(--red);
+    border-radius: 10px;
+    padding: 16px 20px;
+    margin: 14px 0;
+  }
+
+  .highlight-box h4 { font-size: 13px; font-family: 'Space Mono', monospace; color: var(--red); margin-bottom: 7px; letter-spacing: 1px; }
+  .highlight-box p { font-size: 14px; margin: 0; }
+
+  /* ===== LISTS ===== */
+  ul.body-list { list-style: none; padding: 0; margin: 8px 0 14px; }
+  ul.body-list li { padding: 5px 0 5px 22px; position: relative; font-size: 15px; }
+  ul.body-list li::before { content: "▸"; position: absolute; left: 0; color: var(--red); }
+
+  /* ===== INTRO GRID ===== */
+  .intro-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 20px; }
+  @media (max-width: 580px) { .intro-grid { grid-template-columns: 1fr; } }
+
+  .intro-card { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 18px 20px; }
+  .intro-card h4 { font-size: 12px; font-family: 'Space Mono', monospace; letter-spacing: 2px; text-transform: uppercase; color: var(--red); margin-bottom: 9px; }
+  .intro-card p { font-size: 14px; color: var(--text-muted); margin: 0; }
+
+  /* ===== OS TABS ===== */
+  .os-tabs { display: flex; gap: 8px; margin-bottom: 10px; }
+
+  .os-tab {
+    padding: 7px 16px;
+    border-radius: 8px;
+    font-size: 13px;
+    font-weight: 800;
+    border: 1.5px solid var(--border);
+    background: #fff;
+    color: var(--text-muted);
+    cursor: pointer;
+    transition: all 0.15s;
+  }
+
+  .os-tab.active { background: var(--red); border-color: var(--red); color: #fff; }
+  .os-content { display: none; }
+  .os-content.active { display: block; }
+
+  /* ===== QUICK REF ===== */
+  .quick-ref-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; margin-top: 18px; }
+
+  .qr-card { background: #fff; border: 1.5px solid var(--border); border-radius: 14px; padding: 18px; }
+  .qr-card h4 { font-size: 14px; font-weight: 900; color: var(--red-dark); margin-bottom: 10px; padding-bottom: 8px; border-bottom: 1.5px solid var(--border); }
+  .qr-card ul { list-style: none; padding: 0; display: flex; flex-direction: column; gap: 7px; }
+  .qr-card li { font-size: 13px; color: var(--text-muted); display: flex; align-items: flex-start; gap: 8px; }
+  .qr-card li::before { content: "→"; color: var(--red); flex-shrink: 0; }
+
+  /* ===== FOOTER ===== */
+  footer { background: var(--red-dark); text-align: center; padding: 40px 20px; color: rgba(255,255,255,0.8); font-size: 14px; }
+  footer strong { color: #fff; }
+
+  @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+  section { animation: fadeIn 0.35s ease both; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-badge">🛠️ Workshop Guide · ESP32 + MPU6050</div>
+  <h1>Gesture<span>Tech</span></h1>
+  <p class="hero-sub">Build 3 real sensor projects from scratch — no experience needed!</p>
+  <div class="project-pills">
+    <a href="#project1" class="pill">✋ 3D Hand Tracking</a>
+    <a href="#project2" class="pill">🎮 IMU Game Controller</a>
+    <a href="#project3" class="pill">🚨 Accident Detector</a>
+  </div>
+</div>
+
+<!-- NAV -->
+<nav class="sticky-nav">
+  <div class="nav-inner">
+    <a href="#intro"        class="nav-link">Intro</a>
+    <a href="#hardware"     class="nav-link">Hardware</a>
+    <a href="#software"     class="nav-link">Software ↓</a>
+    <a href="#wiring"       class="nav-link">Wiring</a>
+    <a href="#project1"     class="nav-link">Project 1</a>
+    <a href="#project2"     class="nav-link">Project 2</a>
+    <a href="#project3"     class="nav-link">Project 3</a>
+    <a href="#troubleshoot" class="nav-link">Help 🆘</a>
+  </div>
+</nav>
+
+<div class="main">
+
+  <!-- INTRO -->
+  <section id="intro">
+    <div class="section-label">Welcome</div>
+    <h2 class="section-title">Before We Start — Read This! 👋</h2>
+    <p>Welcome to Gesture Tech! You'll use a tiny motion sensor called the <strong>MPU6050</strong> attached to an <strong>ESP32 microcontroller</strong> to build 3 real projects. Never done this before? No worries — every single step is explained clearly.</p>
+
+    <div class="intro-grid">
+      <div class="intro-card">
+        <h4>🤖 What is the ESP32?</h4>
+        <p>Think of it as a <strong style="color:var(--text)">tiny computer</strong> you can program. It runs your code and communicates with the sensor and your laptop over USB.</p>
+      </div>
+      <div class="intro-card">
+        <h4>👁️ What is the MPU6050?</h4>
+        <p>It's the <strong style="color:var(--text)">motion-sensing brain</strong> of your project. It detects movement, tilt, and vibration in 3 directions at once.</p>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3 class="step-title" style="margin-top:0"><span style="font-size:22px">🔄</span> What is an IMU Sensor?</h3>
+      <p>IMU stands for <strong>Inertial Measurement Unit</strong>. It simply means a sensor that measures motion. The MPU6050 measures three things:</p>
+      <ul class="body-list" style="margin-top:10px">
+        <li><strong>Acceleration</strong> — how fast something is speeding up or slowing down</li>
+        <li><strong>Rotation</strong> — how much it's tilting or spinning</li>
+        <li><strong>Angles</strong> — the exact tilt in 3 directions: Roll, Pitch, and Yaw</li>
+      </ul>
+    </div>
+
+    <div class="card">
+      <h3 class="step-title" style="margin-top:0"><span style="font-size:22px">✈️</span> Roll, Pitch &amp; Yaw — Simply Explained</h3>
+      <p>Imagine holding your phone flat in front of you:</p>
+      <div class="tilt-grid" style="grid-template-columns:repeat(3,1fr); margin-top:14px">
+        <div class="tilt-card"><div class="tilt-arrow">↕️</div><div class="tilt-dir">Pitch</div><div style="font-size:12px;color:var(--text-muted)">Tilt forward/backward</div></div>
+        <div class="tilt-card"><div class="tilt-arrow">↔️</div><div class="tilt-dir">Roll</div><div style="font-size:12px;color:var(--text-muted)">Tilt left/right</div></div>
+        <div class="tilt-card"><div class="tilt-arrow">🔄</div><div class="tilt-dir">Yaw</div><div style="font-size:12px;color:var(--text-muted)">Spin flat on a table</div></div>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- HARDWARE -->
+  <section id="hardware">
+    <div class="section-label">Step 0</div>
+    <h2 class="section-title">Hardware You Need 🧰</h2>
+    <p>Make sure you have <strong>all</strong> of these components before starting.</p>
+
+    <div class="card" style="padding:0; overflow:hidden">
+      <table>
+        <thead><tr><th>Component</th><th>Qty</th><th>Notes</th></tr></thead>
+        <tbody>
+          <tr><td>ESP32 Dev Board</td><td>1</td><td>Any standard ESP32 dev board works</td></tr>
+          <tr><td>MPU6050 Module</td><td>1</td><td>6-axis IMU — the star of the show! ⭐</td></tr>
+          <tr><td>Female-to-Female Jumper Wires</td><td>4</td><td>For connecting sensor to board</td></tr>
+          <tr><td>Breadboard</td><td>1</td><td>Optional — helps with Project 3 wiring</td></tr>
+          <tr><td>Micro USB Cable</td><td>1</td><td>⚠️ MUST be a <strong>data cable</strong>, not charge-only!</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <strong>Micro USB Cable Warning!</strong>
+        <p>Many USB cables only charge and <strong>cannot transfer data</strong>. If your ESP32 is not recognized, try a different cable. A data cable will show a COM port in Device Manager when plugged in.</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- SOFTWARE -->
+  <section id="software">
+    <div class="section-label">Step 1</div>
+    <h2 class="section-title">Software to Install 💻</h2>
+    <p>Click the red <strong>Download</strong> button on each card below — it will start downloading the installer directly to your computer. No hunting for links needed!</p>
+
+    <div class="download-grid">
+
+      <div class="dl-card">
+        <div class="dl-icon">🔵</div>
+        <div class="dl-name">Arduino IDE</div>
+        <div class="dl-version">Version 2.x</div>
+        <div class="dl-purpose">Your main coding tool — programs the ESP32</div>
+        <a class="dl-btn" href="https://downloads.arduino.cc/arduino-ide/arduino-ide_latest_Windows_64bit.exe" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Windows
+        </a>
+        <div class="dl-note">Mac/Linux: visit <strong>arduino.cc/en/software</strong></div>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">🟣</div>
+        <div class="dl-name">Processing</div>
+        <div class="dl-version">Version 4.x</div>
+        <div class="dl-purpose">Shows the 3D hand animation — used in Project 1</div>
+        <a class="dl-btn" href="https://github.com/processing/processing4/releases/download/processing-1293-4.3/processing-4.3-windows-x64.zip" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Windows
+        </a>
+        <div class="dl-note">Mac/Linux: visit <strong>processing.org/download</strong></div>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">🟡</div>
+        <div class="dl-name">Python</div>
+        <div class="dl-version">Version 3.12.9</div>
+        <div class="dl-purpose">Runs the game controller script — used in Project 2</div>
+        <a class="dl-btn" href="https://www.python.org/ftp/python/3.12.9/python-3.12.9-amd64.exe" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Windows
+        </a>
+        <div class="dl-note">✅ During install, check <strong>"Add Python to PATH"</strong>!</div>
+      </div>
+
+      <div class="dl-card">
+        <div class="dl-icon">🔌</div>
+        <div class="dl-name">CP210x Driver</div>
+        <div class="dl-version">USB-to-UART</div>
+        <div class="dl-purpose">Lets your PC recognize and talk to the ESP32</div>
+        <a class="dl-btn" href="https://www.silabs.com/documents/public/software/CP210x_Windows_Drivers.zip" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
+          Download for Windows
+        </a>
+        <div class="dl-note">Extract the .zip then run the <strong>.exe</strong> installer inside</div>
+      </div>
+
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">✅</div>
+      <div class="callout-content">
+        <strong>Recommended Install Order</strong>
+        <p><strong>1) CP210x Driver → 2) Arduino IDE → 3) Python → 4) Processing.</strong> Following this order avoids most setup problems.</p>
+      </div>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">A</span> Add ESP32 Support to Arduino IDE</h3>
+    <div class="card">
+      <ul class="body-list">
+        <li>Open Arduino IDE → <strong>File → Preferences</strong> (Mac: <strong>Arduino → Preferences</strong>)</li>
+        <li>Find <em>"Additional Board Manager URLs"</em> and paste this URL:</li>
+      </ul>
+      <div class="code-block" style="margin-top:10px">
+        <div class="code-header">
+          <span class="code-lang">Paste this URL into Arduino Preferences</span>
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+          </button>
+        </div>
+        <pre><code>https://espressif.github.io/arduino-esp32/package_esp32_index.json</code></pre>
+      </div>
+      <ul class="body-list" style="margin-top:10px">
+        <li>Click <strong>OK</strong> to save.</li>
+        <li>Go to <strong>Tools → Board → Board Manager</strong> → search <code>esp32</code> → install <em>"esp32 by Espressif Systems"</em></li>
+        <li>Go to <strong>Tools → Manage Libraries</strong> → search <code>MPU6050_light</code> → install by <em>Richard Feliciano</em></li>
+      </ul>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">B</span> Select Your Board &amp; Port</h3>
+    <div class="card">
+      <ul class="body-list">
+        <li>Go to <strong>Tools → Board → esp32 → "ESP32 Dev Module"</strong></li>
+        <li>Go to <strong>Tools → Port</strong> and select your COM port (e.g., <code>COM3</code>)</li>
+      </ul>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">C</span> Finding Your COM Port</h3>
+    <div class="os-tabs">
+      <button class="os-tab active" onclick="switchOS(this,'win')">🪟 Windows</button>
+      <button class="os-tab" onclick="switchOS(this,'mac')">🍎 Mac / Linux</button>
+    </div>
+    <div id="os-win" class="os-content active card">
+      <ul class="body-list">
+        <li>Right-click the Start button → <strong>Device Manager</strong></li>
+        <li>Expand <em>"Ports (COM &amp; LPT)"</em></li>
+        <li>Look for <em>"Silicon Labs CP210x... (COM3)"</em></li>
+        <li>That number is your port — write it down! 📝</li>
+      </ul>
+    </div>
+    <div id="os-mac" class="os-content card">
+      <p>Open Terminal and type:</p>
+      <div class="code-block" style="margin:10px 0 0">
+        <div class="code-header">
+          <span class="code-lang">Terminal</span>
+          <button class="copy-btn" onclick="copyCode(this)">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+          </button>
+        </div>
+        <pre><code>ls /dev/tty*</code></pre>
+      </div>
+      <p style="margin-top:10px; font-size:14px">Look for <code>/dev/ttyUSB0</code> or <code>/dev/cu.SLAB_USBtoUART</code></p>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- WIRING -->
+  <section id="wiring">
+    <div class="section-label">Step 2</div>
+    <h2 class="section-title">Wiring the MPU6050 🔌</h2>
+    <p>The wiring is <strong>identical for all 3 projects</strong>. Only 4 wires — you've got this!</p>
+
+    <div class="callout callout-danger">
+      <div class="callout-icon">🚨</div>
+      <div class="callout-content">
+        <strong>CRITICAL: Use 3.3V — NOT 5V!</strong>
+        <p>The MPU6050 runs at 3.3V. Connecting it to the 5V pin will <strong>permanently damage the sensor</strong>. Double-check this before powering on every single time!</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden">
+      <table>
+        <thead><tr><th>MPU6050 Pin</th><th>ESP32 Pin</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td>VCC</td><td>3.3V</td><td>Power ⚠️ NOT 5V!</td></tr>
+          <tr><td>GND</td><td>GND</td><td>Ground</td></tr>
+          <tr><td>SCL</td><td>GPIO 22</td><td>I2C Clock Signal</td></tr>
+          <tr><td>SDA</td><td>GPIO 21</td><td>I2C Data Signal</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">💡</div>
+      <div class="callout-content">
+        <strong>Beginner Tips</strong>
+        <p>Match the labels on the MPU6050 (VCC, GND, SCL, SDA) to the labels on the ESP32 (3V3, GND, GPIO22, GPIO21). After connecting, give each wire a gentle tug — it should not come loose. If values are stuck at 0, try swapping SCL and SDA!</p>
+      </div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- PROJECT 1 -->
+  <section id="project1">
+    <div class="project-header ph-1" data-num="01">
+      <div class="project-num">PROJECT 01 / 03</div>
+      <div class="project-title">✋ 3D Hand Tracking</div>
+      <div class="project-desc">The MPU6050 reads your hand's tilt and sends angles to your laptop. A Processing sketch draws a 3D hand that follows every move!</div>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">1</span> Install Processing IDE</h3>
+    <div class="card">
+      <ul class="body-list">
+        <li>Use the <strong>Download</strong> button in the Software section above to get Processing.</li>
+        <li>Run the installer. Processing is a <strong>separate program</strong> from Arduino IDE.</li>
+        <li>Open Processing to confirm it launches correctly.</li>
+      </ul>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">2</span> Upload ESP32 Code</h3>
+    <p>Open Arduino IDE → <strong>File → New</strong> → delete everything → paste this code:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Arduino · Project 1 Code</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
+      </div>
+      <pre><code><span class="token-keyword">#include</span> <span class="token-string">&lt;Wire.h&gt;</span>
+<span class="token-keyword">#include</span> <span class="token-string">&lt;MPU6050_light.h&gt;</span>
+
+<span class="token-type">MPU6050</span> <span class="token-fn">mpu</span>(Wire);
+<span class="token-type">float</span> roll, pitch, yaw;
+
+<span class="token-type">void</span> <span class="token-fn">setup</span>() {
+  Serial.<span class="token-fn">begin</span>(<span class="token-number">115200</span>); <span class="token-comment">// Start serial communication</span>
+  Wire.<span class="token-fn">begin</span>();           <span class="token-comment">// Start I2C communication</span>
+  mpu.<span class="token-fn">begin</span>();           <span class="token-comment">// Initialize the MPU6050</span>
+  mpu.<span class="token-fn">calcOffsets</span>();     <span class="token-comment">// Calibrate: keep sensor STILL during this!</span>
+}
+
+<span class="token-type">void</span> <span class="token-fn">loop</span>() {
+  mpu.<span class="token-fn">update</span>();
+  roll  = mpu.<span class="token-fn">getAngleX</span>();
+  pitch = mpu.<span class="token-fn">getAngleY</span>();
+  yaw   = mpu.<span class="token-fn">getAngleZ</span>();
+
+  <span class="token-comment">// Send values over USB as: roll,pitch,yaw</span>
+  Serial.<span class="token-fn">print</span>(roll);  Serial.<span class="token-fn">print</span>(',');
+  Serial.<span class="token-fn">print</span>(pitch); Serial.<span class="token-fn">print</span>(',');
+  Serial.<span class="token-fn">println</span>(yaw); <span class="token-comment">// println adds newline at end</span>
+
+  <span class="token-fn">delay</span>(<span class="token-number">10</span>); <span class="token-comment">// Wait 10ms before next reading</span>
+}</code></pre>
+    </div>
+
+    <div class="highlight-box">
+      <h4>💬 What is Serial.begin(115200)?</h4>
+      <p>This sets the communication speed to 115,200 bits per second. Think of it as a <strong>talking speed</strong>. Both the sender (ESP32) and receiver (Processing) must use the <strong>same number</strong> or they won't understand each other!</p>
+    </div>
+
+    <div class="card">
+      <strong style="display:block; margin-bottom:10px; font-size:15px">📤 How to Upload:</strong>
+      <ul class="body-list" style="margin:0">
+        <li>Connect ESP32 to laptop via USB</li>
+        <li><strong>Tools → Board → esp32 → ESP32 Dev Module</strong></li>
+        <li><strong>Tools → Port</strong> → select your COM port</li>
+        <li>Click the <strong>Upload</strong> button (→ arrow icon). If it fails, hold the <strong>BOOT button</strong> on the ESP32 while clicking Upload.</li>
+        <li>After upload: <strong>Tools → Serial Monitor</strong> → set baud rate to <code>115200</code> → you should see numbers like <code>1.23,4.56,7.89</code> scrolling.</li>
+      </ul>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">3</span> Run the Processing Sketch</h3>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <strong>Close Arduino Serial Monitor first!</strong>
+        <p>Only one program can use the serial port at a time. If Serial Monitor is open, Processing cannot connect.</p>
+      </div>
+    </div>
+
+    <p>Open Processing → new sketch → paste this code:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Processing · Project 1 Sketch</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
+      </div>
+      <pre><code><span class="token-keyword">import</span> processing.serial.*;
+<span class="token-keyword">import</span> processing.opengl.*;
+
+Serial myPort;
+<span class="token-type">float</span> roll = <span class="token-number">0</span>, pitch = <span class="token-number">0</span>, yaw = <span class="token-number">0</span>;
+
+<span class="token-comment">// ⬇️ CHANGE THIS to your COM port!</span>
+String portName = <span class="token-string">"COM3"</span>;
+
+<span class="token-type">void</span> <span class="token-fn">setup</span>() {
+  <span class="token-fn">size</span>(<span class="token-number">800</span>, <span class="token-number">600</span>, P3D);
+  myPort = <span class="token-keyword">new</span> <span class="token-fn">Serial</span>(<span class="token-keyword">this</span>, portName, <span class="token-number">115200</span>);
+  myPort.<span class="token-fn">bufferUntil</span>('\n');
+}
+
+<span class="token-type">void</span> <span class="token-fn">draw</span>() {
+  <span class="token-fn">background</span>(<span class="token-number">50</span>);
+  <span class="token-fn">lights</span>();
+  <span class="token-fn">translate</span>(width/<span class="token-number">2</span>, height/<span class="token-number">2</span>, <span class="token-number">0</span>);
+  <span class="token-fn">rotateY</span>(<span class="token-fn">radians</span>(yaw));
+  <span class="token-fn">rotateX</span>(<span class="token-fn">radians</span>(pitch));
+  <span class="token-fn">rotateZ</span>(<span class="token-fn">radians</span>(roll));
+
+  <span class="token-fn">fill</span>(<span class="token-number">255</span>, <span class="token-number">220</span>, <span class="token-number">180</span>);  <span class="token-comment">// Skin color</span>
+  <span class="token-fn">box</span>(<span class="token-number">80</span>, <span class="token-number">100</span>, <span class="token-number">30</span>);      <span class="token-comment">// Palm</span>
+
+  <span class="token-fn">pushMatrix</span>(); <span class="token-fn">translate</span>(<span class="token-number">40</span>,<span class="token-number">-20</span>,<span class="token-number">0</span>); <span class="token-fn">rotateZ</span>(<span class="token-fn">radians</span>(<span class="token-number">30</span>));
+  <span class="token-fn">box</span>(<span class="token-number">25</span>, <span class="token-number">60</span>, <span class="token-number">25</span>); <span class="token-fn">popMatrix</span>();    <span class="token-comment">// Thumb</span>
+
+  <span class="token-fn">pushMatrix</span>(); <span class="token-fn">translate</span>(<span class="token-number">-30</span>,<span class="token-number">-50</span>,<span class="token-number">0</span>);
+  <span class="token-fn">box</span>(<span class="token-number">20</span>, <span class="token-number">70</span>, <span class="token-number">20</span>); <span class="token-fn">popMatrix</span>();    <span class="token-comment">// Index finger</span>
+
+  <span class="token-fn">pushMatrix</span>(); <span class="token-fn">translate</span>(<span class="token-number">0</span>,<span class="token-number">-55</span>,<span class="token-number">0</span>);
+  <span class="token-fn">box</span>(<span class="token-number">20</span>, <span class="token-number">80</span>, <span class="token-number">20</span>); <span class="token-fn">popMatrix</span>();    <span class="token-comment">// Middle finger</span>
+
+  <span class="token-fn">pushMatrix</span>(); <span class="token-fn">translate</span>(<span class="token-number">30</span>,<span class="token-number">-50</span>,<span class="token-number">0</span>);
+  <span class="token-fn">box</span>(<span class="token-number">20</span>, <span class="token-number">75</span>, <span class="token-number">20</span>); <span class="token-fn">popMatrix</span>();    <span class="token-comment">// Ring finger</span>
+}
+
+<span class="token-type">void</span> <span class="token-fn">serialEvent</span>(Serial myPort) {
+  String data = myPort.<span class="token-fn">readStringUntil</span>('\n');
+  <span class="token-keyword">if</span> (data != <span class="token-keyword">null</span>) {
+    String[] angles = <span class="token-fn">split</span>(<span class="token-fn">trim</span>(data), ',');
+    <span class="token-keyword">if</span> (angles.length == <span class="token-number">3</span>) {
+      roll  = <span class="token-fn">float</span>(angles[<span class="token-number">0</span>]);
+      pitch = <span class="token-fn">float</span>(angles[<span class="token-number">1</span>]);
+      yaw   = <span class="token-fn">float</span>(angles[<span class="token-number">2</span>]);
+    }
+  }
+}</code></pre>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">✏️</div>
+      <div class="callout-content">
+        <strong>Update the Port Name!</strong>
+        <p>Find the line <code>String portName = "COM3";</code> and change <code>COM3</code> to your actual port (e.g., <code>COM5</code> or <code>/dev/ttyUSB0</code> on Mac). This is the most common mistake!</p>
+      </div>
+    </div>
+
+    <p>Click the <strong>▶ Run button</strong> in Processing. A window opens showing a 3D hand. Tilt your sensor and watch it move! 🎉</p>
+
+    <div class="card" style="padding:0; overflow:hidden; margin-top:20px">
+      <div style="padding:12px 20px; background:var(--red); color:#fff; font-weight:800; font-size:13px; font-family:'Space Mono',monospace; letter-spacing:1px">🐛 TROUBLESHOOTING — PROJECT 1</div>
+      <div class="trouble-item"><div class="trouble-prob">Upload fails</div><div class="trouble-fix">Hold BOOT button on ESP32 while clicking Upload</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Serial Monitor shows 0,0,0</div><div class="trouble-fix">Check wiring — SCL=GPIO22, SDA=GPIO21, VCC=3.3V</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Processing shows port error</div><div class="trouble-fix">Close Arduino Serial Monitor first. Check port name in code.</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Hand doesn't move</div><div class="trouble-fix">Verify baud rate is 115200 in both Arduino and Processing</div></div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- PROJECT 2 -->
+  <section id="project2">
+    <div class="project-header ph-2" data-num="02">
+      <div class="project-num">PROJECT 02 / 03</div>
+      <div class="project-title">🎮 IMU Game Controller</div>
+      <div class="project-desc">Tilt the sensor to press arrow keys! Control browser games on Poki.com — like Hill Climb Racing or Mr. Racer!</div>
+    </div>
+
+    <div class="tilt-grid">
+      <div class="tilt-card"><div class="tilt-arrow">⬆️</div><div class="tilt-dir">Tilt Forward</div><div class="tilt-key">↑ UP</div></div>
+      <div class="tilt-card"><div class="tilt-arrow">⬇️</div><div class="tilt-dir">Tilt Backward</div><div class="tilt-key">↓ DOWN</div></div>
+      <div class="tilt-card"><div class="tilt-arrow">➡️</div><div class="tilt-dir">Tilt Right</div><div class="tilt-key">→ RIGHT</div></div>
+      <div class="tilt-card"><div class="tilt-arrow">⬅️</div><div class="tilt-dir">Tilt Left</div><div class="tilt-key">← LEFT</div></div>
+      <div class="tilt-card"><div class="tilt-arrow">🤲</div><div class="tilt-dir">Held Flat</div><div class="tilt-key">No key</div></div>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">1</span> Install Python Libraries</h3>
+    <p>After installing Python (use the Download button above), open Command Prompt and run:</p>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Command Prompt / Terminal</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
+      </div>
+      <pre><code>pip install pyserial keyboard</code></pre>
+    </div>
+
+    <div class="highlight-box">
+      <h4>💬 What are these libraries?</h4>
+      <p><strong>pyserial</strong> lets Python read data from the USB port (ESP32). <strong>keyboard</strong> lets Python press and release keyboard keys. Together they make the game controller!</p>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">2</span> Upload ESP32 Code</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Arduino · Project 2 Code</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
+      </div>
+      <pre><code><span class="token-keyword">#include</span> <span class="token-string">&lt;Wire.h&gt;</span>
+<span class="token-keyword">#include</span> <span class="token-string">&lt;MPU6050_light.h&gt;</span>
+
+<span class="token-type">MPU6050</span> <span class="token-fn">mpu</span>(Wire);
+<span class="token-type">float</span> roll, pitch;
+
+<span class="token-type">void</span> <span class="token-fn">setup</span>() {
+  Serial.<span class="token-fn">begin</span>(<span class="token-number">115200</span>);
+  Wire.<span class="token-fn">begin</span>();
+  mpu.<span class="token-fn">begin</span>();
+  mpu.<span class="token-fn">calcOffsets</span>(); <span class="token-comment">// Keep sensor still during calibration!</span>
+}
+
+<span class="token-type">void</span> <span class="token-fn">loop</span>() {
+  mpu.<span class="token-fn">update</span>();
+  roll  = mpu.<span class="token-fn">getAngleX</span>();
+  pitch = mpu.<span class="token-fn">getAngleY</span>();
+
+  <span class="token-keyword">if</span>      (pitch >  <span class="token-number">20</span>) Serial.<span class="token-fn">println</span>(<span class="token-string">"UP"</span>);
+  <span class="token-keyword">else if</span> (pitch < <span class="token-number">-20</span>) Serial.<span class="token-fn">println</span>(<span class="token-string">"DOWN"</span>);
+  <span class="token-keyword">else if</span> (roll  >  <span class="token-number">20</span>) Serial.<span class="token-fn">println</span>(<span class="token-string">"RIGHT"</span>);
+  <span class="token-keyword">else if</span> (roll  < <span class="token-number">-20</span>) Serial.<span class="token-fn">println</span>(<span class="token-string">"LEFT"</span>);
+  <span class="token-keyword">else</span>               Serial.<span class="token-fn">println</span>(<span class="token-string">"NONE"</span>);
+
+  <span class="token-fn">delay</span>(<span class="token-number">100</span>); <span class="token-comment">// 100ms between readings</span>
+}</code></pre>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">3</span> Run the Python Script</h3>
+    <p>Create a new file called <code>game_controller.py</code> on your Desktop using Notepad and paste this:</p>
+
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Python · game_controller.py</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
+      </div>
+      <pre><code><span class="token-keyword">import</span> serial
+<span class="token-keyword">import</span> keyboard
+<span class="token-keyword">import</span> time
+
+<span class="token-comment"># ⬇️ Change this to your COM port!</span>
+PORT = <span class="token-string">"COM3"</span>
+
+KEY_MAP = {
+    <span class="token-string">"UP"</span>:    <span class="token-string">"up"</span>,
+    <span class="token-string">"DOWN"</span>:  <span class="token-string">"down"</span>,
+    <span class="token-string">"LEFT"</span>:  <span class="token-string">"left"</span>,
+    <span class="token-string">"RIGHT"</span>: <span class="token-string">"right"</span>,
+    <span class="token-string">"NONE"</span>:  <span class="token-keyword">None</span>
+}
+
+<span class="token-keyword">def</span> <span class="token-fn">main</span>():
+    ser = serial.<span class="token-fn">Serial</span>(PORT, <span class="token-number">115200</span>, timeout=<span class="token-number">1</span>)
+    <span class="token-fn">print</span>(<span class="token-string">"Connected! Start tilting your sensor."</span>)
+    current_key = <span class="token-keyword">None</span>
+
+    <span class="token-keyword">while</span> <span class="token-keyword">True</span>:
+        line = ser.<span class="token-fn">readline</span>().<span class="token-fn">decode</span>().<span class="token-fn">strip</span>()
+        <span class="token-keyword">if</span> line <span class="token-keyword">in</span> KEY_MAP:
+            new_key = KEY_MAP[line]
+            <span class="token-keyword">if</span> current_key <span class="token-keyword">and</span> current_key != new_key:
+                keyboard.<span class="token-fn">release</span>(current_key)
+            <span class="token-keyword">if</span> new_key:
+                keyboard.<span class="token-fn">press</span>(new_key)
+            current_key = new_key
+        <span class="token-keyword">else</span>:
+            <span class="token-keyword">if</span> current_key:
+                keyboard.<span class="token-fn">release</span>(current_key)
+            current_key = <span class="token-keyword">None</span>
+        time.<span class="token-fn">sleep</span>(<span class="token-number">0.05</span>)
+
+<span class="token-fn">main</span>()</code></pre>
+    </div>
+
+    <div class="card">
+      <strong style="display:block; margin-bottom:10px; font-size:15px">▶️ How to Run:</strong>
+      <ul class="body-list" style="margin:0">
+        <li>Open Command Prompt → type <code>cd Desktop</code></li>
+        <li>Type: <code>python game_controller.py</code></li>
+        <li>Open <code>poki.com</code> in your browser → search for <em>Hill Climb Racing</em></li>
+        <li><strong>Click on the game window</strong> to focus it, then tilt your sensor to play! 🎮</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-warn">
+      <div class="callout-icon">⚠️</div>
+      <div class="callout-content">
+        <strong>Two important things!</strong>
+        <p>1) Close Arduino Serial Monitor first — only one program can use the port at a time.<br>2) On Windows you may need to <strong>right-click Command Prompt → Run as Administrator</strong> for keyboard simulation to work.</p>
+      </div>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden; margin-top:20px">
+      <div style="padding:12px 20px; background:var(--red); color:#fff; font-weight:800; font-size:13px; font-family:'Space Mono',monospace; letter-spacing:1px">🐛 TROUBLESHOOTING — PROJECT 2</div>
+      <div class="trouble-item"><div class="trouble-prob">Serial error in Python</div><div class="trouble-fix">Close Arduino Serial Monitor. Check PORT value in script.</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Keys not being pressed</div><div class="trouble-fix">Run Command Prompt as Administrator (right-click → Run as Admin)</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Wrong direction triggers</div><div class="trouble-fix">Try swapping roll and pitch in the Arduino code.</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Game not responding</div><div class="trouble-fix">Click the game window first to focus it, then tilt.</div></div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- PROJECT 3 -->
+  <section id="project3">
+    <div class="project-header ph-3" data-num="03">
+      <div class="project-num">PROJECT 03 / 03</div>
+      <div class="project-title">🚨 Smart Accident Detector</div>
+      <div class="project-desc">Detect sudden jerks or impacts! When a strong force is detected, an alert fires in Serial Monitor — just like Apple Watch fall detection or car airbag systems!</div>
+    </div>
+
+    <div class="callout callout-info">
+      <div class="callout-icon">🌍</div>
+      <div class="callout-content">
+        <strong>Real World Connection</strong>
+        <p>Apple Watch uses accelerometers for fall detection. Cars use them to trigger airbags. Medical devices detect patient falls. You're building a simplified version of these systems today!</p>
+      </div>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">1</span> Wiring (Same as Before!)</h3>
+    <div class="card">
+      <p>Already wired from Project 1 or 2? You're all set — same 4 connections, no changes needed!</p>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">2</span> How It Works</h3>
+    <div class="card">
+      <p>When sitting still, the sensor only feels gravity (<strong>≈ 1.0 G</strong>). A sudden jerk spikes this above normal. We use:</p>
+      <div style="text-align:center; padding:18px; font-family:'Space Mono',monospace; font-size:16px; color:var(--red-dark); background:var(--surface2); border-radius:10px; margin:14px 0; border:1px solid var(--border);">
+        Total Acceleration = √(ax² + ay² + az²)
+      </div>
+      <p>If this exceeds <strong>2.5 G</strong>, we declare an accident! You can tune this threshold.</p>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">3</span> Upload the Detection Code</h3>
+    <div class="code-block">
+      <div class="code-header">
+        <span class="code-lang">Arduino · Project 3 Code</span>
+        <button class="copy-btn" onclick="copyCode(this)">
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg>Copy
+        </button>
+      </div>
+      <pre><code><span class="token-keyword">#include</span> <span class="token-string">&lt;Wire.h&gt;</span>
+<span class="token-keyword">#include</span> <span class="token-string">&lt;MPU6050_light.h&gt;</span>
+
+<span class="token-type">MPU6050</span> <span class="token-fn">mpu</span>(Wire);
+
+<span class="token-comment">// How strong a jerk must be to trigger (2.5 = 2.5x gravity)</span>
+<span class="token-type">float</span> JERK_THRESHOLD = <span class="token-number">2.5</span>;
+
+<span class="token-comment">// Wait 3 seconds before detecting another accident</span>
+<span class="token-type">unsigned long</span> lastAlertTime = <span class="token-number">0</span>;
+<span class="token-type">unsigned long</span> COOLDOWN_MS   = <span class="token-number">3000</span>;
+
+<span class="token-type">void</span> <span class="token-fn">setup</span>() {
+  Serial.<span class="token-fn">begin</span>(<span class="token-number">115200</span>);
+  Wire.<span class="token-fn">begin</span>();
+  mpu.<span class="token-fn">begin</span>();
+  Serial.<span class="token-fn">println</span>(<span class="token-string">"Calibrating... Keep sensor STILL!"</span>);
+  mpu.<span class="token-fn">calcOffsets</span>(); <span class="token-comment">// Takes about 3 seconds</span>
+  Serial.<span class="token-fn">println</span>(<span class="token-string">"Done! Ready to detect accidents."</span>);
+}
+
+<span class="token-type">void</span> <span class="token-fn">loop</span>() {
+  mpu.<span class="token-fn">update</span>();
+
+  <span class="token-type">float</span> ax = mpu.<span class="token-fn">getAccX</span>();
+  <span class="token-type">float</span> ay = mpu.<span class="token-fn">getAccY</span>();
+  <span class="token-type">float</span> az = mpu.<span class="token-fn">getAccZ</span>();
+
+  <span class="token-type">float</span> totalAcc = <span class="token-fn">sqrt</span>(ax*ax + ay*ay + az*az);
+
+  Serial.<span class="token-fn">print</span>(<span class="token-string">"Accel: "</span>);
+  Serial.<span class="token-fn">println</span>(totalAcc);
+
+  <span class="token-type">unsigned long</span> now = <span class="token-fn">millis</span>();
+  <span class="token-keyword">if</span> (totalAcc > JERK_THRESHOLD && (now - lastAlertTime) > COOLDOWN_MS) {
+    lastAlertTime = now;
+    Serial.<span class="token-fn">println</span>(<span class="token-string">"================================"</span>);
+    Serial.<span class="token-fn">println</span>(<span class="token-string">"  ACCIDENT DETECTED! ALERT!     "</span>);
+    Serial.<span class="token-fn">print</span> (<span class="token-string">"  Peak Acceleration: "</span>);
+    Serial.<span class="token-fn">print</span> (totalAcc);
+    Serial.<span class="token-fn">println</span>(<span class="token-string">" G"</span>);
+    Serial.<span class="token-fn">println</span>(<span class="token-string">"================================"</span>);
+  }
+
+  <span class="token-fn">delay</span>(<span class="token-number">50</span>); <span class="token-comment">// Check 20 times per second</span>
+}</code></pre>
+    </div>
+
+    <div class="highlight-box">
+      <h4>💬 What is millis()?</h4>
+      <p><code>millis()</code> returns how many milliseconds have passed since the ESP32 powered on. We use it to create a <strong>cooldown</strong> — after one alert, we wait 3 seconds before alerting again. This prevents one jerk from flooding the screen with alerts.</p>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">4</span> Test It!</h3>
+    <div class="card">
+      <p>Upload and open <strong>Tools → Serial Monitor</strong> (baud rate <code>115200</code>). Try these:</p>
+      <ul class="body-list" style="margin-top:10px">
+        <li><strong>Hold still</strong> — value reads ≈ 1.0 G</li>
+        <li><strong>Tilt slowly</strong> — value stays near 1.0 G</li>
+        <li><strong>Quick sharp flick</strong> — value spikes and <em>ACCIDENT DETECTED!</em> appears! 🚨</li>
+      </ul>
+    </div>
+
+    <div class="callout callout-tip">
+      <div class="callout-icon">🎛️</div>
+      <div class="callout-content">
+        <strong>Adjusting Sensitivity</strong>
+        <p>Triggers too easily? Increase <code>JERK_THRESHOLD</code> to <code>3.0</code> or <code>4.0</code>. Not detecting jerks? Lower it to <code>2.0</code>. Experiment and find the sweet spot!</p>
+      </div>
+    </div>
+
+    <h3 class="step-title"><span class="step-num">5</span> Understanding the Code</h3>
+    <div class="card" style="padding:0; overflow:hidden">
+      <table>
+        <thead><tr><th>Concept</th><th>What It Means</th></tr></thead>
+        <tbody>
+          <tr><td>getAccX()/Y()/Z()</td><td>Gets acceleration in X, Y, Z axes in G units (gravity)</td></tr>
+          <tr><td>sqrt(ax²+ay²+az²)</td><td>Pythagorean theorem in 3D — total force on the sensor</td></tr>
+          <tr><td>JERK_THRESHOLD = 2.5</td><td>If force exceeds 2.5G, we consider it an accident</td></tr>
+          <tr><td>millis()</td><td>Time in ms since startup — used for the cooldown timer</td></tr>
+          <tr><td>COOLDOWN_MS = 3000</td><td>After an alert, wait 3 full seconds before the next one</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="card" style="padding:0; overflow:hidden; margin-top:20px">
+      <div style="padding:12px 20px; background:var(--red); color:#fff; font-weight:800; font-size:13px; font-family:'Space Mono',monospace; letter-spacing:1px">🐛 TROUBLESHOOTING — PROJECT 3</div>
+      <div class="trouble-item"><div class="trouble-prob">Triggers on its own</div><div class="trouble-fix">Increase JERK_THRESHOLD to 3.0 or higher</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Jerk not detected</div><div class="trouble-fix">Jerk harder, or lower JERK_THRESHOLD to 2.0</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Values show 0 constantly</div><div class="trouble-fix">Check wiring — VCC to 3.3V, SCL to GPIO22, SDA to GPIO21</div></div>
+      <div class="trouble-item"><div class="trouble-prob">Too many alerts at once</div><div class="trouble-fix">Increase COOLDOWN_MS to 5000 (5 seconds)</div></div>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- GENERAL TROUBLESHOOT -->
+  <section id="troubleshoot">
+    <div class="section-label">Always Check These First</div>
+    <h2 class="section-title">🆘 General Troubleshooting</h2>
+    <p>Something not working? Tick off every item in this checklist <strong>before</strong> asking your instructor — most problems are solved right here!</p>
+
+    <div style="display:flex; align-items:center; gap:12px; margin:16px 0 8px">
+      <span style="font-size:13px; color:var(--text-muted); white-space:nowrap">Progress:</span>
+      <div class="progress-bar" style="flex:1"><div class="progress-fill" id="progressFill"></div></div>
+      <span id="progressText" style="font-size:13px; color:var(--text-muted); white-space:nowrap; font-family:'Space Mono',monospace">0 / 8</span>
+    </div>
+
+    <ul class="checklist" id="checklist">
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">ESP32 is properly connected via USB (Device Manager shows COM port)</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">Correct COM port is selected in Arduino IDE (Tools → Port)</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">Correct board is selected: Tools → Board → ESP32 Dev Module</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">VCC is connected to 3.3V — NOT 5V! ⚡</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">SCL is on GPIO 22 and SDA is on GPIO 21</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">Baud rate is set to 115200 everywhere</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">Arduino Serial Monitor is CLOSED when running Processing or Python</span></li>
+      <li onclick="toggleCheck(this)"><div class="check-box">✓</div><span class="check-text">Sensor was held completely still during calibration (mpu.calcOffsets)</span></li>
+    </ul>
+
+    <h3 style="font-size:18px; font-weight:800; margin:32px 0 14px; color:var(--red-dark)">Common Error Messages</h3>
+    <div class="card" style="padding:0; overflow:hidden">
+      <table>
+        <thead><tr><th>Error Message</th><th>What To Do</th></tr></thead>
+        <tbody>
+          <tr><td>avrdude: stk500_recv() error</td><td>Hold BOOT button on ESP32, click Upload again</td></tr>
+          <tr><td>Port not found / Serial port busy</td><td>Close Serial Monitor. Unplug and re-plug ESP32.</td></tr>
+          <tr><td>No module named 'serial'</td><td>Run: <code>pip install pyserial</code> in Command Prompt</td></tr>
+          <tr><td>No module named 'keyboard'</td><td>Run: <code>pip install keyboard</code> in Command Prompt</td></tr>
+          <tr><td>MPU6050 not detected</td><td>Check wiring. Default I2C address is 0x68.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+  <hr class="section-sep">
+
+  <!-- QUICK REF -->
+  <section id="quickref">
+    <div class="section-label">Summary</div>
+    <h2 class="section-title">⚡ Quick Reference Card</h2>
+
+    <h3 style="font-size:15px; font-weight:800; margin:0 0 12px; color:var(--text-muted)">Wiring — Same for All 3 Projects</h3>
+    <div class="card" style="padding:0; overflow:hidden; margin-bottom:26px">
+      <table>
+        <thead><tr><th>MPU6050 Pin</th><th>ESP32 Pin</th><th>Function</th></tr></thead>
+        <tbody>
+          <tr><td>VCC</td><td>3.3V</td><td>Power ⚠️ NOT 5V!</td></tr>
+          <tr><td>GND</td><td>GND</td><td>Ground</td></tr>
+          <tr><td>SCL</td><td>GPIO 22</td><td>I2C Clock</td></tr>
+          <tr><td>SDA</td><td>GPIO 21</td><td>I2C Data</td></tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div class="quick-ref-grid">
+      <div class="qr-card">
+        <h4>✋ Project 1 — 3D Hand</h4>
+        <ul>
+          <li>Wire MPU6050 to ESP32</li>
+          <li>Upload Arduino code</li>
+          <li>Install Processing 4.x</li>
+          <li>Update COM port in Processing sketch</li>
+          <li>Run the Processing sketch</li>
+        </ul>
+      </div>
+      <div class="qr-card">
+        <h4>🎮 Project 2 — Game Ctrl</h4>
+        <ul>
+          <li>Wire MPU6050 to ESP32</li>
+          <li>Upload Arduino code</li>
+          <li><code>pip install pyserial keyboard</code></li>
+          <li>Update COM port in Python script</li>
+          <li>Run <code>game_controller.py</code></li>
+        </ul>
+      </div>
+      <div class="qr-card">
+        <h4>🚨 Project 3 — Accident</h4>
+        <ul>
+          <li>Wire MPU6050 to ESP32</li>
+          <li>Upload Arduino code</li>
+          <li>Open Serial Monitor</li>
+          <li>Set baud rate to 115200</li>
+          <li>Flick/jerk sensor to trigger!</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+
+</div>
+
+<footer>
+  <div style="font-size:28px; margin-bottom:10px">🤙</div>
+  <strong>Happy Building!</strong> — <span style="color:#ffaaaa">GestureTech Workshop</span><br>
+  <span style="color:rgba(255,200,200,0.65); font-size:13px;">Ask your instructor if you're stuck. There are no silly questions!</span>
+</footer>
+
+<script>
+  function copyCode(btn) {
+    const pre = btn.closest('.code-block').querySelector('pre');
+    const text = pre.innerText || pre.textContent;
+    navigator.clipboard.writeText(text).then(() => {
+      btn.classList.add('copied');
+      btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
+      setTimeout(() => {
+        btn.classList.remove('copied');
+        btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
+      }, 2000);
+    });
+  }
+
+  function switchOS(tab, id) {
+    document.querySelectorAll('.os-tab').forEach(t => t.classList.remove('active'));
+    document.querySelectorAll('.os-content').forEach(c => c.classList.remove('active'));
+    tab.classList.add('active');
+    document.getElementById('os-' + id).classList.add('active');
+  }
+
+  function toggleCheck(li) {
+    li.classList.toggle('checked');
+    const total = document.querySelectorAll('#checklist li').length;
+    const checked = document.querySelectorAll('#checklist li.checked').length;
+    document.getElementById('progressFill').style.width = (checked / total * 100) + '%';
+    document.getElementById('progressText').textContent = checked + ' / ' + total;
+  }
+</script>
+</body>
+</html>
