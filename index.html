@@ -617,7 +617,7 @@
   footer strong { color: #fff; }
 
   @keyframes fadeIn { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
-  section { animation: fadeIn 0.35s ease both; }
+  section { animation: fadeIn 0.35s ease both; scroll-margin-top: 60px; }
 </style>
 </head>
 <body>
@@ -745,7 +745,7 @@
         <div class="dl-name">Processing</div>
         <div class="dl-version">Version 4.x</div>
         <div class="dl-purpose">Shows the 3D hand animation — used in Project 1</div>
-        <a class="dl-btn" href="https://github.com/processing/processing4/releases/download/processing-1293-4.3/processing-4.3-windows-x64.zip" target="_blank" rel="noopener">
+        <a class="dl-btn" href="https://github.com/processing/processing4/releases/download/processing-1435-4.5.7/processing-4.5.7-windows-x64.msi" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download for Windows
         </a>
@@ -755,9 +755,9 @@
       <div class="dl-card">
         <div class="dl-icon">🟡</div>
         <div class="dl-name">Python</div>
-        <div class="dl-version">Version 3.12.9</div>
+        <div class="dl-version">Version 3.12.10</div>
         <div class="dl-purpose">Runs the game controller script — used in Project 2</div>
-        <a class="dl-btn" href="https://www.python.org/ftp/python/3.12.9/python-3.12.9-amd64.exe" target="_blank" rel="noopener">
+        <a class="dl-btn" href="https://www.python.org/ftp/python/3.12.10/python-3.12.10-amd64.exe" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download for Windows
         </a>
@@ -767,9 +767,9 @@
       <div class="dl-card">
         <div class="dl-icon">🔌</div>
         <div class="dl-name">CP210x Driver</div>
-        <div class="dl-version">USB-to-UART</div>
+        <div class="dl-version">Windows 10/11</div>
         <div class="dl-purpose">Lets your PC recognize and talk to the ESP32</div>
-        <a class="dl-btn" href="https://www.silabs.com/documents/public/software/CP210x_Windows_Drivers.zip" target="_blank" rel="noopener">
+        <a class="dl-btn" href="https://www.silabs.com/documents/public/software/CP210x_Universal_Windows_Driver.zip" target="_blank" rel="noopener">
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5"><path d="M21 15v4a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2v-4"/><polyline points="7 10 12 15 17 10"/><line x1="12" y1="15" x2="12" y2="3"/></svg>
           Download for Windows
         </a>
@@ -804,7 +804,7 @@
       <ul class="body-list" style="margin-top:10px">
         <li>Click <strong>OK</strong> to save.</li>
         <li>Go to <strong>Tools → Board → Board Manager</strong> → search <code>esp32</code> → install <em>"esp32 by Espressif Systems"</em></li>
-        <li>Go to <strong>Tools → Manage Libraries</strong> → search <code>MPU6050_light</code> → install by <em>Richard Feliciano</em></li>
+        <li>Go to <strong>Tools → Manage Libraries</strong> → search <code>MPU6050_light</code> → install by <em>rfetick</em></li>
       </ul>
     </div>
 
@@ -1354,7 +1354,7 @@ KEY_MAP = {
       <table>
         <thead><tr><th>Error Message</th><th>What To Do</th></tr></thead>
         <tbody>
-          <tr><td>avrdude: stk500_recv() error</td><td>Hold BOOT button on ESP32, click Upload again</td></tr>
+          <tr><td>Failed to connect to ESP32 / Timed out</td><td>Hold BOOT button on ESP32, click Upload again</td></tr>
           <tr><td>Port not found / Serial port busy</td><td>Close Serial Monitor. Unplug and re-plug ESP32.</td></tr>
           <tr><td>No module named 'serial'</td><td>Run: <code>pip install pyserial</code> in Command Prompt</td></tr>
           <tr><td>No module named 'keyboard'</td><td>Run: <code>pip install keyboard</code> in Command Prompt</td></tr>
@@ -1430,14 +1430,31 @@ KEY_MAP = {
   function copyCode(btn) {
     const pre = btn.closest('.code-block').querySelector('pre');
     const text = pre.innerText || pre.textContent;
-    navigator.clipboard.writeText(text).then(() => {
+    const showCopied = () => {
       btn.classList.add('copied');
       btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><polyline points="20 6 9 17 4 12"/></svg> Copied!`;
       setTimeout(() => {
         btn.classList.remove('copied');
         btn.innerHTML = `<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" width="13" height="13"><rect x="9" y="9" width="13" height="13" rx="2"/><path d="M5 15H4a2 2 0 0 1-2-2V4a2 2 0 0 1 2-2h9a2 2 0 0 1 2 2v1"/></svg> Copy`;
       }, 2000);
-    });
+    };
+    if (navigator.clipboard && navigator.clipboard.writeText) {
+      navigator.clipboard.writeText(text).then(showCopied).catch(() => legacyCopy(text, showCopied));
+    } else {
+      legacyCopy(text, showCopied);
+    }
+  }
+
+  function legacyCopy(text, done) {
+    const ta = document.createElement('textarea');
+    ta.value = text;
+    ta.style.position = 'fixed';
+    ta.style.opacity = '0';
+    document.body.appendChild(ta);
+    ta.select();
+    try { document.execCommand('copy'); } catch (e) {}
+    document.body.removeChild(ta);
+    done();
   }
 
   function switchOS(tab, id) {
